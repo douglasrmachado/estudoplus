@@ -15,7 +15,7 @@ class StudySession extends Model
         'start_time',
         'duration',
         'description',
-        'status'
+        'status',
     ];
 
     protected $casts = [
@@ -29,5 +29,31 @@ class StudySession extends Model
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    public static function statuses(): array
+    {
+        return [
+            'planned' => 'Planejada',
+            'in_progress' => 'Em Andamento',
+            'completed' => 'Concluída',
+            'cancelled' => 'Cancelada',
+        ];
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return self::statuses()[$this->status] ?? $this->status;
+    }
+
+    public function getStatusColorAttribute(): string
+    {
+        return match($this->status) {
+            'planned' => 'blue',
+            'in_progress' => 'yellow',
+            'completed' => 'green',
+            'cancelled' => 'red',
+            default => 'gray'
+        };
     }
 } 

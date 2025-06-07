@@ -19,13 +19,14 @@ class Subject extends Model
      */
     protected $fillable = [
         'name',
-        'professor',
-        'workload',
-        'semester',
-        'status',
-        'color',
+        'code',
         'description',
-        'user_id'
+        'professor',
+        'semester',
+        'workload',
+        'user_id',
+        'status',
+        'color'
     ];
 
     /**
@@ -47,7 +48,7 @@ class Subject extends Model
     /**
      * Get the tasks for the subject.
      */
-    public function tasks()
+    public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
     }
@@ -55,7 +56,7 @@ class Subject extends Model
     /**
      * Get the self assessments for the subject.
      */
-    public function selfAssessments()
+    public function selfAssessments(): HasMany
     {
         return $this->hasMany(SelfAssessment::class);
     }
@@ -76,5 +77,29 @@ class Subject extends Model
         }
         
         $this->attributes['semester'] = $value;
+    }
+
+    public static function statuses(): array
+    {
+        return [
+            'active' => 'Ativa',
+            'completed' => 'Concluída',
+            'cancelled' => 'Cancelada',
+        ];
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return self::statuses()[$this->status] ?? $this->status;
+    }
+
+    public function getStatusColorAttribute(): string
+    {
+        return match($this->status) {
+            'active' => 'green',
+            'completed' => 'blue',
+            'cancelled' => 'red',
+            default => 'gray'
+        };
     }
 }

@@ -14,16 +14,12 @@ class SelfAssessment extends Model
         'subject_id',
         'assessment_date',
         'understanding_level',
-        'study_effectiveness',
         'confidence_level',
-        'strengths',
-        'areas_to_improve',
         'action_plan',
-        'notes',
     ];
 
     protected $casts = [
-        'assessment_date' => 'date',
+        'assessment_date' => 'datetime',
     ];
 
     public function subject(): BelongsTo
@@ -31,26 +27,33 @@ class SelfAssessment extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public static function levels(): array
+    public function getUnderstandingLevelLabelAttribute(): string
     {
-        return [
+        return match($this->understanding_level) {
             1 => 'Muito Baixo',
             2 => 'Baixo',
             3 => 'Médio',
             4 => 'Alto',
             5 => 'Muito Alto',
-        ];
+            default => 'Não Avaliado'
+        };
     }
 
-    public function getLevelLabelAttribute(string $field): string
+    public function getConfidenceLevelLabelAttribute(): string
     {
-        $value = $this->attributes[$field] ?? null;
-        return self::levels()[$value] ?? 'Não Avaliado';
+        return match($this->confidence_level) {
+            1 => 'Muito Baixa',
+            2 => 'Baixa',
+            3 => 'Média',
+            4 => 'Alta',
+            5 => 'Muito Alta',
+            default => 'Não Avaliada'
+        };
     }
 
-    public function getLevelColorAttribute(string $field): string
+    public function getLevelColorAttribute($level): string
     {
-        $value = $this->attributes[$field] ?? null;
+        $value = $this->$level;
         return match($value) {
             1 => 'red',
             2 => 'orange',
@@ -59,35 +62,5 @@ class SelfAssessment extends Model
             5 => 'green',
             default => 'gray'
         };
-    }
-
-    public function getUnderstandingLevelLabelAttribute(): string
-    {
-        return $this->getLevelLabelAttribute('understanding_level');
-    }
-
-    public function getStudyEffectivenessLabelAttribute(): string
-    {
-        return $this->getLevelLabelAttribute('study_effectiveness');
-    }
-
-    public function getConfidenceLevelLabelAttribute(): string
-    {
-        return $this->getLevelLabelAttribute('confidence_level');
-    }
-
-    public function getUnderstandingLevelColorAttribute(): string
-    {
-        return $this->getLevelColorAttribute('understanding_level');
-    }
-
-    public function getStudyEffectivenessColorAttribute(): string
-    {
-        return $this->getLevelColorAttribute('study_effectiveness');
-    }
-
-    public function getConfidenceLevelColorAttribute(): string
-    {
-        return $this->getLevelColorAttribute('confidence_level');
     }
 } 

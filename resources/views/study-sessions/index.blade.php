@@ -65,28 +65,9 @@
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            @switch($session->status)
-                                                @case('planned')
-                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
-                                                        Planejada
-                                                    </span>
-                                                    @break
-                                                @case('in_progress')
-                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
-                                                        Em Andamento
-                                                    </span>
-                                                    @break
-                                                @case('completed')
-                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
-                                                        Concluída
-                                                    </span>
-                                                    @break
-                                                @case('cancelled')
-                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
-                                                        Cancelada
-                                                    </span>
-                                                    @break
-                                            @endswitch
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $session->status_color }}-100 dark:bg-{{ $session->status_color }}-900 text-{{ $session->status_color }}-800 dark:text-{{ $session->status_color }}-200">
+                                                {{ $session->status_label }}
+                                            </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex justify-end space-x-2">
