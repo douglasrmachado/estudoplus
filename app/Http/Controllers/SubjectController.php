@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SubjectController extends Controller
 {
@@ -12,7 +13,13 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = auth()->user()->subjects()->latest()->get();
+        $user = auth()->user();
+        Log::info('User ID: ' . $user->id);
+        
+        $subjects = $user->subjects()->latest()->get();
+        Log::info('Subjects count: ' . $subjects->count());
+        Log::info('Subjects data: ' . json_encode($subjects));
+        
         return view('subjects.index', compact('subjects'));
     }
 
@@ -29,17 +36,33 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info('Request data: ' . json_encode($request->all()));
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'teacher' => 'nullable|string|max:255',
+            'professor' => 'nullable|string|max:255',
+            'workload' => 'nullable|integer|min:0',
+            'semester' => 'nullable|string|max:10',
+            'status' => 'required|in:active,completed,cancelled',
             'color' => 'required|string|size:7|regex:/^#[a-zA-Z0-9]{6}$/',
             'description' => 'nullable|string|max:1000',
         ]);
 
-        auth()->user()->subjects()->create($validated);
+        Log::info('Validated data: ' . json_encode($validated));
 
-        return redirect()->route('subjects.index')
-            ->with('success', 'Matéria criada com sucesso!');
+        try {
+            $subject = new Subject($validated);
+            $subject->user_id = auth()->id();
+            Log::info('User ID being set: ' . auth()->id());
+            $subject->save();
+            Log::info('Subject saved with ID: ' . $subject->id);
+
+            return redirect()->route('subjects.index')
+                ->with('success', 'Matéria criada com sucesso!');
+        } catch (\Exception $e) {
+            Log::error('Error saving subject: ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     /**
@@ -47,7 +70,8 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
+        $this->authorize('view', $subject);
+        return view('subjects.show', compact('subject'));
     }
 
     /**
@@ -68,7 +92,10 @@ class SubjectController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'teacher' => 'nullable|string|max:255',
+            'professor' => 'nullable|string|max:255',
+            'workload' => 'nullable|integer|min:0',
+            'semester' => 'nullable|string|max:10',
+            'status' => 'required|in:active,completed,cancelled',
             'color' => 'required|string|size:7|regex:/^#[a-zA-Z0-9]{6}$/',
             'description' => 'nullable|string|max:1000',
         ]);

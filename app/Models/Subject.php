@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Subject extends Model
 {
@@ -17,7 +19,10 @@ class Subject extends Model
      */
     protected $fillable = [
         'name',
-        'teacher',
+        'professor',
+        'workload',
+        'semester',
+        'status',
         'color',
         'description',
         'user_id'
@@ -26,7 +31,7 @@ class Subject extends Model
     /**
      * Get the user that owns the subject.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -34,7 +39,7 @@ class Subject extends Model
     /**
      * Get the study sessions for the subject.
      */
-    public function studySessions()
+    public function studySessions(): HasMany
     {
         return $this->hasMany(StudySession::class);
     }
