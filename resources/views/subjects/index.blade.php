@@ -31,10 +31,10 @@
                     @else
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach($subjects as $subject)
-                                <div class="border dark:border-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                                <div class="border dark:border-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full"
                                      style="border-left: 4px solid {{ $subject->color }}">
-                                    <div class="p-4">
-                                        <div class="flex justify-between items-start">
+                                    <div class="p-4 flex flex-col h-full justify-between">
+                                        <div>
                                             <div>
                                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                                                     {{ $subject->name }}
@@ -45,26 +45,26 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                        </div>
 
-                                        <div class="mt-3 space-y-2">
-                                            @if($subject->professor)
-                                                <p class="text-sm text-gray-600 dark:text-gray-400">
-                                                    <span class="font-medium">Professor(a):</span> {{ $subject->professor }}
-                                                </p>
-                                            @endif
+                                            <div class="mt-3 space-y-2">
+                                                @if($subject->professor)
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                                        <span class="font-medium">Professor(a):</span> {{ $subject->professor }}
+                                                    </p>
+                                                @endif
 
-                                            @if($subject->workload)
-                                                <p class="text-sm text-gray-600 dark:text-gray-400">
-                                                    <span class="font-medium">Carga Horária:</span> {{ $subject->workload }}h
-                                                </p>
-                                            @endif
+                                                @if($subject->workload)
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                                        <span class="font-medium">Carga Horária:</span> {{ $subject->workload }}h
+                                                    </p>
+                                                @endif
 
-                                            @if($subject->description)
-                                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                                                    {{ Str::limit($subject->description, 100) }}
-                                                </p>
-                                            @endif
+                                                @if($subject->description)
+                                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                                        {{ Str::limit($subject->description, 100) }}
+                                                    </p>
+                                                @endif
+                                            </div>
                                         </div>
 
                                         <div class="mt-4 flex justify-between items-center">

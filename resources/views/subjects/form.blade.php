@@ -17,9 +17,16 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <x-input-label for="name" :value="__('Nome da Matéria')" />
-                                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
-                                    :value="old('name', isset($subject) ? $subject->name : '')" required autofocus />
+                                <x-input-label for="name" :value="__('Nome da Matéria')" class="text-gray-900 dark:text-gray-100" />
+                                <x-text-input id="name" 
+                                    name="name" 
+                                    type="text" 
+                                    class="mt-1 block w-full text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    :value="old('name', isset($subject) ? $subject->name : '')" 
+                                    required 
+                                    autofocus
+                                    oninvalid="this.setCustomValidity('Por favor, preencha este campo')"
+                                    oninput="this.setCustomValidity('')" />
                                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
                             </div>
 
@@ -31,17 +38,30 @@
                             </div>
 
                             <div>
-                                <x-input-label for="workload" :value="__('Carga Horária (horas)')" />
-                                <x-text-input id="workload" name="workload" type="number" class="mt-1 block w-full"
-                                    :value="old('workload', isset($subject) ? $subject->workload : '')" min="0" />
+                                <x-input-label for="workload" :value="__('Carga Horária (horas)')" class="text-gray-900 dark:text-gray-100" />
+                                <x-text-input id="workload" 
+                                    name="workload" 
+                                    type="number" 
+                                    class="mt-1 block w-full text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    :value="old('workload', isset($subject) ? $subject->workload : '')" 
+                                    min="0"
+                                    max="1000"
+                                    oninvalid="this.setCustomValidity('O valor deve ser menor ou igual a 1000')"
+                                    oninput="this.setCustomValidity('')" />
                                 <x-input-error class="mt-2" :messages="$errors->get('workload')" />
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Máximo de 1000 horas</p>
                             </div>
 
                             <div>
-                                <x-input-label for="semester" :value="__('Semestre')" />
-                                <x-text-input id="semester" name="semester" type="text" class="mt-1 block w-full"
-                                    :value="old('semester', isset($subject) ? $subject->semester : '')" placeholder="Ex: 2024.1" />
+                                <x-input-label for="semester" :value="__('Semestre')" class="text-gray-900 dark:text-gray-100" />
+                                <x-text-input id="semester" 
+                                    name="semester" 
+                                    type="text" 
+                                    class="mt-1 block w-full text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    :value="old('semester', isset($subject) ? $subject->semester : '')" 
+                                    placeholder="Ex: 20241 ou 20242" />
                                 <x-input-error class="mt-2" :messages="$errors->get('semester')" />
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Digite 4 dígitos para o ano e 1 dígito (1 ou 2) para o período</p>
                             </div>
 
                             <div>

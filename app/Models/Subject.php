@@ -59,4 +59,22 @@ class Subject extends Model
     {
         return $this->hasMany(SelfAssessment::class);
     }
+
+    /**
+     * Formata automaticamente o semestre para incluir o ponto
+     */
+    public function setSemesterAttribute($value)
+    {
+        if (!empty($value)) {
+            // Remove qualquer ponto existente primeiro
+            $value = str_replace('.', '', $value);
+            
+            // Se o valor tiver 5 caracteres (ex: 20242), insere o ponto na posição correta
+            if (strlen($value) == 5) {
+                $value = substr_replace($value, '.', 4, 0);
+            }
+        }
+        
+        $this->attributes['semester'] = $value;
+    }
 }
