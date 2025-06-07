@@ -4,9 +4,12 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Autoavaliações') }}
             </h2>
-            <a href="{{ route('self-assessments.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <x-primary-button tag="a" href="{{ route('self-assessments.create') }}">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
                 Nova Autoavaliação
-            </a>
+            </x-primary-button>
         </div>
     </x-slot>
 

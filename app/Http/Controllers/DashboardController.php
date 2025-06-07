@@ -26,7 +26,7 @@ class DashboardController extends Controller
           ->sum('duration') / 60; // Convertendo minutos para horas
 
         $activeSubjects = Subject::where('user_id', $user->id)
-            ->where('semester', $this->getCurrentSemester())
+            ->where('status', 'active')
             ->count();
 
         $pendingTasks = Task::whereHas('subject', function($q) use ($user) {

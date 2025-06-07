@@ -31,17 +31,27 @@
                     @else
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach($subjects as $subject)
-                                <div class="border dark:border-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full"
+                                <div class="border dark:border-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full {{ $subject->status === 'completed' ? 'bg-green-50 dark:bg-green-900/20' : '' }}"
                                      style="border-left: 4px solid {{ $subject->color }}">
                                     <div class="p-4 flex flex-col h-full justify-between">
                                         <div>
-                                            <div>
-                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                                                    {{ $subject->name }}
-                                                </h3>
-                                                @if($subject->semester)
-                                                    <span class="inline-block text-xs text-gray-500 dark:text-gray-400">
-                                                        {{ $subject->semester }}
+                                            <div class="flex justify-between items-start">
+                                                <div>
+                                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                                        {{ $subject->name }}
+                                                    </h3>
+                                                    @if($subject->semester)
+                                                        <span class="inline-block text-xs text-gray-500 dark:text-gray-400">
+                                                            {{ $subject->semester }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                                @if($subject->status === 'completed')
+                                                    <span class="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:text-green-200">
+                                                        <svg class="mr-1.5 h-2 w-2 text-green-400" fill="currentColor" viewBox="0 0 8 8">
+                                                            <circle cx="4" cy="4" r="3" />
+                                                        </svg>
+                                                        Concluída
                                                     </span>
                                                 @endif
                                             </div>
