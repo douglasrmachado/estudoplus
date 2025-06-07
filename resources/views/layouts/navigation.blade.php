@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('study-sessions.index')" :active="request()->routeIs('study-sessions.*')">
                         {{ __('Sessões de Estudo') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.*')">
+                        {{ __('Tarefas') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -91,6 +94,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('study-sessions.index')" :active="request()->routeIs('study-sessions.*')">
                 {{ __('Sessões de Estudo') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.*')">
+                {{ __('Tarefas') }}
             </x-responsive-nav-link>
         </div>
 
