@@ -20,7 +20,8 @@
                                     required>
                                 <option value="">Selecione uma matéria</option>
                                 @foreach($subjects as $subject)
-                                    <option value="{{ $subject->id }}" {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
+                                    <option value="{{ $subject->id }}" 
+                                        {{ old('subject_id', $selectedSubject?->id) == $subject->id ? 'selected' : '' }}>
                                         {{ $subject->name }}
                                     </option>
                                 @endforeach

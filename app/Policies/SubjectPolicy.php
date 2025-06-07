@@ -13,7 +13,7 @@ class SubjectPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class SubjectPolicy
      */
     public function view(User $user, Subject $subject): bool
     {
-        //
+        return $user->id === $subject->user_id;
     }
 
     /**

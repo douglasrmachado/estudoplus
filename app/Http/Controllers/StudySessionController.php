@@ -27,10 +27,16 @@ class StudySessionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         $subjects = Subject::where('user_id', Auth::id())->get();
-        return view('study-sessions.create', compact('subjects'));
+        $selectedSubject = null;
+        
+        if ($request->has('subject_id')) {
+            $selectedSubject = Subject::findOrFail($request->subject_id);
+        }
+        
+        return view('study-sessions.create', compact('subjects', 'selectedSubject'));
     }
 
     /**

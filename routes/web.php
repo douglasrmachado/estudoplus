@@ -32,6 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('subjects', SubjectController::class);
+    Route::get('/subjects/{subject}/tasks/create', [TaskController::class, 'create'])->name('subjects.tasks.create');
+    Route::get('/subjects/{subject}/self-assessments/create', [SelfAssessmentController::class, 'create'])->name('subjects.self-assessments.create');
+    Route::get('/subjects/{subject}/study-sessions/create', [StudySessionController::class, 'create'])->name('subjects.study-sessions.create');
+    
     Route::resource('study-sessions', StudySessionController::class);
     Route::resource('tasks', TaskController::class)
         ->middleware(['auth', 'verified']);

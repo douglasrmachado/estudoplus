@@ -45,6 +45,37 @@
                                                     </span>
                                                 @endif
                                             </div>
+                                        </div>
+
+                                        <div class="mt-3 space-y-2">
+                                            @if($subject->professor)
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                                    <span class="font-medium">Professor(a):</span> {{ $subject->professor }}
+                                                </p>
+                                            @endif
+
+                                            @if($subject->workload)
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">
+                                                    <span class="font-medium">Carga Horária:</span> {{ $subject->workload }}h
+                                                </p>
+                                            @endif
+
+                                            @if($subject->description)
+                                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                                    {{ Str::limit($subject->description, 100) }}
+                                                </p>
+                                            @endif
+                                        </div>
+
+                                        <div class="mt-4 flex justify-between items-center">
+                                            <a href="{{ route('subjects.show', $subject) }}" 
+                                               class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                                Visualizar
+                                            </a>
                                             <div class="flex space-x-2">
                                                 <a href="{{ route('subjects.edit', $subject) }}" 
                                                    class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
@@ -64,47 +95,6 @@
                                                     </button>
                                                 </form>
                                             </div>
-                                        </div>
-
-                                        <div class="mt-3 space-y-2">
-                                            @if($subject->professor)
-                                                <p class="text-sm text-gray-600 dark:text-gray-400">
-                                                    <span class="font-medium">Professor(a):</span> {{ $subject->professor }}
-                                                </p>
-                                            @endif
-
-                                            @if($subject->workload)
-                                                <p class="text-sm text-gray-600 dark:text-gray-400">
-                                                    <span class="font-medium">Carga Horária:</span> {{ $subject->workload }}h
-                                                </p>
-                                            @endif
-
-                                            <div class="flex items-center space-x-2">
-                                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Status:</span>
-                                                @switch($subject->status)
-                                                    @case('active')
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                                            Ativa
-                                                        </span>
-                                                        @break
-                                                    @case('completed')
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                                                            Concluída
-                                                        </span>
-                                                        @break
-                                                    @case('cancelled')
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-                                                            Cancelada
-                                                        </span>
-                                                        @break
-                                                @endswitch
-                                            </div>
-
-                                            @if($subject->description)
-                                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                                                    {{ Str::limit($subject->description, 100) }}
-                                                </p>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>

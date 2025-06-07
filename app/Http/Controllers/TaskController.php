@@ -19,11 +19,18 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
         $subjects = Subject::orderBy('name')->get();
+        $selectedSubject = null;
+        
+        if ($request->has('subject_id')) {
+            $selectedSubject = Subject::findOrFail($request->subject_id);
+        }
+        
         return view('tasks.create', [
             'subjects' => $subjects,
+            'selectedSubject' => $selectedSubject,
             'priorities' => Task::priorities(),
             'statuses' => Task::statuses(),
         ]);

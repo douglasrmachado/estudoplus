@@ -71,7 +71,20 @@ class SubjectController extends Controller
     public function show(Subject $subject)
     {
         $this->authorize('view', $subject);
-        return view('subjects.show', compact('subject'));
+        
+        $tasks = $subject->tasks()
+            ->orderBy('due_date')
+            ->get();
+            
+        $selfAssessments = $subject->selfAssessments()
+            ->orderBy('assessment_date', 'desc')
+            ->get();
+            
+        $studySessions = $subject->studySessions()
+            ->orderBy('start_time', 'desc')
+            ->get();
+
+        return view('subjects.show', compact('subject', 'tasks', 'selfAssessments', 'studySessions'));
     }
 
     /**

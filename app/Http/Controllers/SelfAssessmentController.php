@@ -19,12 +19,18 @@ class SelfAssessmentController extends Controller
         return view('self-assessments.index', compact('assessments'));
     }
 
-    public function create(): View
+    public function create(Request $request): View
     {
         $subjects = Subject::orderBy('name')->get();
+        $selectedSubject = null;
+        
+        if ($request->has('subject_id')) {
+            $selectedSubject = Subject::findOrFail($request->subject_id);
+        }
+        
         $levels = SelfAssessment::levels();
 
-        return view('self-assessments.create', compact('subjects', 'levels'));
+        return view('self-assessments.create', compact('subjects', 'selectedSubject', 'levels'));
     }
 
     public function store(Request $request): RedirectResponse
