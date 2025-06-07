@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudySessionController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\SelfAssessmentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +33,10 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('subjects', SubjectController::class);
     Route::resource('study-sessions', StudySessionController::class);
-    Route::resource('tasks', TaskController::class);
+    Route::resource('tasks', TaskController::class)
+        ->middleware(['auth', 'verified']);
+    Route::resource('self-assessments', SelfAssessmentController::class)
+        ->middleware(['auth', 'verified']);
 });
 
 require __DIR__.'/auth.php';

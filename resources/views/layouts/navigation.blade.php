@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.*')">
                         {{ __('Tarefas') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('self-assessments.index')" :active="request()->routeIs('self-assessments.*')">
+                        {{ __('Autoavaliações') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -97,6 +100,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.*')">
                 {{ __('Tarefas') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('self-assessments.index')" :active="request()->routeIs('self-assessments.*')">
+                {{ __('Autoavaliações') }}
             </x-responsive-nav-link>
         </div>
 
