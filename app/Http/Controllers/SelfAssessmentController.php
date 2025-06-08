@@ -7,12 +7,20 @@ use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class SelfAssessmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(SelfAssessment::class, 'self_assessment');
+    }
+
     public function index(): View
     {
-        $assessments = SelfAssessment::with('subject')
+        $assessments = SelfAssessment::whereHas('subject', function($q) {
+            $q->where('user_id', Auth::id());
+        })->with('subject')
             ->orderBy('assessment_date', 'desc')
             ->paginate(10);
 
@@ -21,11 +29,15 @@ class SelfAssessmentController extends Controller
 
     public function create(Request $request): View
     {
-        $subjects = Subject::orderBy('name')->get();
+        $subjects = Subject::where('user_id', Auth::id())
+            ->orderBy('name')
+            ->get();
+            
         $selectedSubject = null;
         
         if ($request->has('subject_id')) {
-            $selectedSubject = Subject::findOrFail($request->subject_id);
+            $selectedSubject = Subject::where('user_id', Auth::id())
+                ->findOrFail($request->subject_id);
         }
         
         $levels = SelfAssessment::levels();
@@ -36,7 +48,7 @@ class SelfAssessmentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'subject_id' => 'required|exists:subjects,id',
+            'subject_id' => ['required', 'exists:subjects,id'],
             'assessment_date' => 'required|date',
             'understanding_level' => 'required|integer|min:1|max:5',
             'study_effectiveness' => 'required|integer|min:1|max:5',
@@ -46,6 +58,10 @@ class SelfAssessmentController extends Controller
             'action_plan' => 'nullable|string|max:1000',
             'notes' => 'nullable|string|max:1000',
         ]);
+
+        // Verifica se a matéria pertence ao usuário
+        $subject = Subject::where('user_id', Auth::id())
+            ->findOrFail($validated['subject_id']);
 
         SelfAssessment::create($validated);
 
@@ -60,7 +76,10 @@ class SelfAssessmentController extends Controller
 
     public function edit(SelfAssessment $selfAssessment): View
     {
-        $subjects = Subject::orderBy('name')->get();
+        $subjects = Subject::where('user_id', Auth::id())
+            ->orderBy('name')
+            ->get();
+            
         $levels = SelfAssessment::levels();
 
         return view('self-assessments.edit', compact('selfAssessment', 'subjects', 'levels'));
@@ -69,7 +88,7 @@ class SelfAssessmentController extends Controller
     public function update(Request $request, SelfAssessment $selfAssessment): RedirectResponse
     {
         $validated = $request->validate([
-            'subject_id' => 'required|exists:subjects,id',
+            'subject_id' => ['required', 'exists:subjects,id'],
             'assessment_date' => 'required|date',
             'understanding_level' => 'required|integer|min:1|max:5',
             'study_effectiveness' => 'required|integer|min:1|max:5',
@@ -79,6 +98,10 @@ class SelfAssessmentController extends Controller
             'action_plan' => 'nullable|string|max:1000',
             'notes' => 'nullable|string|max:1000',
         ]);
+
+        // Verifica se a matéria pertence ao usuário
+        $subject = Subject::where('user_id', Auth::id())
+            ->findOrFail($validated['subject_id']);
 
         $selfAssessment->update($validated);
 

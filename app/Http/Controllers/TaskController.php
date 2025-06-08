@@ -7,12 +7,20 @@ use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
+
     public function index(): View
     {
-        $tasks = Task::with('subject')
+        $tasks = Task::whereHas('subject', function($q) {
+            $q->where('user_id', Auth::id());
+        })->with('subject')
             ->orderBy('due_date')
             ->paginate(10);
 
@@ -21,11 +29,15 @@ class TaskController extends Controller
 
     public function create(Request $request): View
     {
-        $subjects = Subject::orderBy('name')->get();
+        $subjects = Subject::where('user_id', Auth::id())
+            ->orderBy('name')
+            ->get();
+            
         $selectedSubject = null;
         
         if ($request->has('subject_id')) {
-            $selectedSubject = Subject::findOrFail($request->subject_id);
+            $selectedSubject = Subject::where('user_id', Auth::id())
+                ->findOrFail($request->subject_id);
         }
         
         return view('tasks.create', [
@@ -47,6 +59,10 @@ class TaskController extends Controller
             'status' => ['required', 'in:pending,in_progress,completed,cancelled'],
         ]);
 
+        // Verifica se a matéria pertence ao usuário
+        $subject = Subject::where('user_id', Auth::id())
+            ->findOrFail($validated['subject_id']);
+
         Task::create($validated);
 
         return redirect()
@@ -56,12 +72,18 @@ class TaskController extends Controller
 
     public function show(Task $task): View
     {
+        $this->authorize('view', $task);
         return view('tasks.show', compact('task'));
     }
 
     public function edit(Task $task): View
     {
-        $subjects = Subject::orderBy('name')->get();
+        $this->authorize('update', $task);
+        
+        $subjects = Subject::where('user_id', Auth::id())
+            ->orderBy('name')
+            ->get();
+            
         return view('tasks.edit', [
             'task' => $task,
             'subjects' => $subjects,
@@ -72,6 +94,8 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task): RedirectResponse
     {
+        $this->authorize('update', $task);
+
         $validated = $request->validate([
             'subject_id' => ['required', 'exists:subjects,id'],
             'title' => ['required', 'string', 'max:255'],
@@ -80,6 +104,10 @@ class TaskController extends Controller
             'priority' => ['required', 'in:low,medium,high'],
             'status' => ['required', 'in:pending,in_progress,completed,cancelled'],
         ]);
+
+        // Verifica se a matéria pertence ao usuário
+        $subject = Subject::where('user_id', Auth::id())
+            ->findOrFail($validated['subject_id']);
 
         $task->update($validated);
 
@@ -90,6 +118,8 @@ class TaskController extends Controller
 
     public function destroy(Task $task): RedirectResponse
     {
+        $this->authorize('delete', $task);
+        
         $task->delete();
 
         return redirect()
