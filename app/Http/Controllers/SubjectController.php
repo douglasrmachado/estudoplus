@@ -42,13 +42,18 @@ class SubjectController extends Controller
             'name' => 'required|string|max:255',
             'professor' => 'nullable|string|max:255',
             'workload' => 'nullable|integer|min:0|max:1000',
-            'semester' => 'nullable|string|max:5|regex:/^\d{4}[1-2]$/',
+            'semester' => [
+                'nullable',
+                'string',
+                'max:6',
+                'regex:/^(\d{4}[1-2]|\d{4}\.[1-2])$/'
+            ],
             'status' => 'required|in:active,completed,cancelled',
             'color' => 'required|string|size:7|regex:/^#[a-zA-Z0-9]{6}$/',
             'description' => 'nullable|string|max:1000',
         ], [
-            'semester.max' => 'O campo semestre não pode ter mais que 5 caracteres.',
-            'semester.regex' => 'O formato do semestre está inválido. Use 4 dígitos para o ano e 1 dígito (1 ou 2) para o período. Exemplo: 20241',
+            'semester.max' => 'O campo semestre não pode ter mais que 6 caracteres.',
+            'semester.regex' => 'O formato do semestre está inválido. Use 4 dígitos para o ano e 1 dígito (1 ou 2) para o período. Exemplo: 20241 ou 2024.1',
             'workload.max' => 'A carga horária não pode ser maior que 1000 horas.',
             'workload.min' => 'A carga horária não pode ser negativa.'
         ]);
@@ -112,13 +117,18 @@ class SubjectController extends Controller
             'name' => 'required|string|max:255',
             'professor' => 'nullable|string|max:255',
             'workload' => 'nullable|integer|min:0|max:1000',
-            'semester' => 'nullable|string|max:5|regex:/^\d{4}[1-2]$/',
+            'semester' => [
+                'nullable',
+                'string',
+                'max:6',
+                'regex:/^(\d{4}[1-2]|\d{4}\.[1-2])$/'
+            ],
             'status' => 'required|in:active,completed,cancelled',
             'color' => 'required|string|size:7|regex:/^#[a-zA-Z0-9]{6}$/',
             'description' => 'nullable|string|max:1000',
         ], [
-            'semester.max' => 'O campo semestre não pode ter mais que 5 caracteres.',
-            'semester.regex' => 'O formato do semestre está inválido. Use 4 dígitos para o ano e 1 dígito (1 ou 2) para o período. Exemplo: 20241',
+            'semester.max' => 'O campo semestre não pode ter mais que 6 caracteres.',
+            'semester.regex' => 'O formato do semestre está inválido. Use 4 dígitos para o ano e 1 dígito (1 ou 2) para o período. Exemplo: 20241 ou 2024.1',
             'workload.max' => 'A carga horária não pode ser maior que 1000 horas.',
             'workload.min' => 'A carga horária não pode ser negativa.'
         ]);

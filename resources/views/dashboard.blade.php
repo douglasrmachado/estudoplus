@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Visão Geral') }}
         </h2>
     </x-slot>
 
@@ -144,34 +144,56 @@
             <!-- Progresso das Matérias -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8">
                 <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Progresso das Matérias</h3>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Progresso das Matérias</h3>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Concluída</span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Em Andamento</span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">Inativa</span>
+                        </div>
+                    </div>
                     @if($subjects->isEmpty())
                         <p class="text-gray-600 dark:text-gray-400">Nenhuma matéria cadastrada.</p>
                     @else
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             @foreach($subjects as $subject)
-                                <div class="border dark:border-gray-700 rounded-lg p-4">
+                                <div class="border dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                                     <div class="flex justify-between items-center mb-2">
-                                        <h4 class="font-medium text-gray-900 dark:text-gray-100">{{ $subject->name }}</h4>
-                                        <span class="text-sm text-gray-600 dark:text-gray-400">{{ $subject->semester }}</span>
+                                        <div>
+                                            <h4 class="font-medium text-gray-900 dark:text-gray-100">{{ $subject->name }}</h4>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                                {{ $subject->professor ?: 'Professor não informado' }} • {{ $subject->semester }}
+                                            </p>
+                                        </div>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ 
+                                            $subject->status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 
+                                            ($subject->status === 'active' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 
+                                            'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200') 
+                                        }}">
+                                            {{ $subject->status === 'completed' ? 'Concluída' : ($subject->status === 'active' ? 'Em Andamento' : 'Inativa') }}
+                                        </span>
                                     </div>
-                                    <div class="space-y-2">
+                                    <div class="space-y-3">
                                         <div>
                                             <div class="flex justify-between text-sm mb-1">
-                                                <span class="text-gray-600 dark:text-gray-400">Tarefas Concluídas</span>
-                                                <span class="text-gray-900 dark:text-gray-100">{{ $subject->completed_tasks_count }}/{{ $subject->total_tasks_count }}</span>
+                                                <span class="text-gray-600 dark:text-gray-400">Tarefas</span>
+                                                <span class="text-gray-900 dark:text-gray-100">
+                                                    <strong>{{ $subject->completed_tasks_count }}</strong>/{{ $subject->total_tasks_count }}
+                                                </span>
                                             </div>
                                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-green-500 h-2 rounded-full" style="width: {{ $subject->total_tasks_count > 0 ? ($subject->completed_tasks_count / $subject->total_tasks_count * 100) : 0 }}%"></div>
+                                                <div class="bg-green-500 h-2 rounded-full transition-all duration-300" style="width: {{ $subject->total_tasks_count > 0 ? ($subject->completed_tasks_count / $subject->total_tasks_count * 100) : 0 }}%"></div>
                                             </div>
                                         </div>
                                         <div>
                                             <div class="flex justify-between text-sm mb-1">
-                                                <span class="text-gray-600 dark:text-gray-400">Horas Estudadas</span>
-                                                <span class="text-gray-900 dark:text-gray-100">{{ $subject->total_study_hours }}h</span>
+                                                <span class="text-gray-600 dark:text-gray-400">Carga Horária</span>
+                                                <span class="text-gray-900 dark:text-gray-100">
+                                                    <strong>{{ number_format($subject->total_study_hours, 1) }}</strong>/{{ $subject->workload }}h
+                                                </span>
                                             </div>
                                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-blue-500 h-2 rounded-full" style="width: {{ $subject->workload > 0 ? min(($subject->total_study_hours / $subject->workload * 100), 100) : 0 }}%"></div>
+                                                <div class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: {{ $subject->workload > 0 ? min(($subject->total_study_hours / $subject->workload * 100), 100) : 0 }}%"></div>
                                             </div>
                                         </div>
                                     </div>

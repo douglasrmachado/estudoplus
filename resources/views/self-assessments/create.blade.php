@@ -93,10 +93,7 @@
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
-                            <x-secondary-button type="button" onclick="window.history.back()" class="mr-3">
-                                {{ __('Cancelar') }}
-                            </x-secondary-button>
-                            <x-primary-button>
+                            <x-primary-button class="ml-4">
                                 {{ __('Salvar') }}
                             </x-primary-button>
                         </div>

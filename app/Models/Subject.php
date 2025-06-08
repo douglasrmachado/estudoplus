@@ -70,9 +70,14 @@ class Subject extends Model
             // Remove qualquer ponto existente primeiro
             $value = str_replace('.', '', $value);
             
-            // Se o valor tiver 5 caracteres (ex: 20242), insere o ponto na posição correta
-            if (strlen($value) == 5) {
-                $value = substr_replace($value, '.', 4, 0);
+            // Se o valor tiver 5 caracteres (ex: 20241), insere o ponto na posição correta
+            if (strlen($value) == 5 && is_numeric($value)) {
+                $year = substr($value, 0, 4);
+                $period = substr($value, 4, 1);
+                
+                if ($period == '1' || $period == '2') {
+                    $value = $year . '.' . $period;
+                }
             }
         }
         

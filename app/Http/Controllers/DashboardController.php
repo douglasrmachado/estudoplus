@@ -45,14 +45,13 @@ class DashboardController extends Controller
         $upcomingStudySessions = StudySession::whereHas('subject', function($q) use ($user) {
             $q->where('user_id', $user->id);
         })->where('status', 'planned')
-          ->where('start_time', '>=', now())
           ->orderBy('start_time')
           ->take(5)
           ->get();
 
         // Progresso das Matérias
         $subjects = Subject::where('user_id', $user->id)
-            ->where('semester', $this->getCurrentSemester())
+            ->where('status', 'active')
             ->withCount(['tasks as completed_tasks_count' => function($q) {
                 $q->where('status', 'completed');
             }])

@@ -14,8 +14,12 @@ class SelfAssessment extends Model
         'subject_id',
         'assessment_date',
         'understanding_level',
+        'study_effectiveness',
         'confidence_level',
+        'strengths',
+        'areas_to_improve',
         'action_plan',
+        'notes'
     ];
 
     protected $casts = [
@@ -51,6 +55,18 @@ class SelfAssessment extends Model
         };
     }
 
+    public function getStudyEffectivenessLabelAttribute(): string
+    {
+        return match($this->study_effectiveness) {
+            1 => 'Muito Baixa',
+            2 => 'Baixa',
+            3 => 'Média',
+            4 => 'Alta',
+            5 => 'Muito Alta',
+            default => 'Não Avaliada'
+        };
+    }
+
     public function getLevelColorAttribute($level): string
     {
         $value = $this->$level;
@@ -62,5 +78,16 @@ class SelfAssessment extends Model
             5 => 'green',
             default => 'gray'
         };
+    }
+
+    public static function levels(): array
+    {
+        return [
+            1 => 'Muito Baixo',
+            2 => 'Baixo',
+            3 => 'Médio',
+            4 => 'Alto',
+            5 => 'Muito Alto'
+        ];
     }
 } 
