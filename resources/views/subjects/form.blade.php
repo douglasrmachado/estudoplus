@@ -68,15 +68,9 @@
                                 <x-input-label for="status" :value="__('Status')" />
                                 <select id="status" name="status" 
                                         class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                                    <option value="active" {{ old('status', isset($subject) ? $subject->status : '') == 'active' ? 'selected' : '' }}>
-                                        Ativa
-                                    </option>
-                                    <option value="completed" {{ old('status', isset($subject) ? $subject->status : '') == 'completed' ? 'selected' : '' }}>
-                                        Concluída
-                                    </option>
-                                    <option value="cancelled" {{ old('status', isset($subject) ? $subject->status : '') == 'cancelled' ? 'selected' : '' }}>
-                                        Cancelada
-                                    </option>
+                                    <option value="active" {{ old('status', isset($subject) ? $subject->status : '') == 'active' ? 'selected' : '' }}>Em Andamento</option>
+                                    <option value="completed" {{ old('status', isset($subject) ? $subject->status : '') == 'completed' ? 'selected' : '' }}>Concluída</option>
+                                    <option value="cancelled" {{ old('status', isset($subject) ? $subject->status : '') == 'cancelled' ? 'selected' : '' }}>Inativa</option>
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('status')" />
                             </div>

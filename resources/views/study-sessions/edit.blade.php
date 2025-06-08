@@ -30,12 +30,14 @@
                         </div>
 
                         <div class="mt-4">
-                            <x-input-label for="start_time" :value="__('Data e Hora de Início')" />
+                            <x-input-label for="start_time" :value="__('Data de Início')" />
                             <x-text-input id="start_time" 
                                          name="start_time" 
-                                         type="datetime-local" 
+                                         type="date" 
                                          class="mt-1 block w-full"
-                                         :value="old('start_time', $studySession->start_time->format('Y-m-d\TH:i'))"
+                                         :value="old('start_time', $studySession->start_time->format('Y-m-d'))"
+                                         :min="now()->format('Y-m-d')"
+                                         placeholder="dia/mês/ano"
                                          required />
                             <x-input-error :messages="$errors->get('start_time')" class="mt-2" />
                         </div>

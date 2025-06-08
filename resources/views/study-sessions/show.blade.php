@@ -23,7 +23,7 @@
                             <div>
                                 <h3 class="text-lg font-semibold">{{ $studySession->subject->name }}</h3>
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                    {{ $studySession->start_time->format('d/m/Y H:i') }} - 
+                                    {{ $studySession->formatted_start_time }} - 
                                     {{ $studySession->duration }} minutos
                                 </p>
                             </div>

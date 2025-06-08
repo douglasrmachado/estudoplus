@@ -31,7 +31,7 @@
                                         Matéria
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Data/Hora
+                                        Data
                                     </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                         Duração
@@ -54,7 +54,7 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900 dark:text-gray-100">
-                                                {{ $session->start_time->format('d/m/Y H:i') }}
+                                                {{ $session->formatted_start_time }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">

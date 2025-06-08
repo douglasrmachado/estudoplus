@@ -123,7 +123,7 @@ class SubjectController extends Controller
                 'max:6',
                 'regex:/^(\d{4}[1-2]|\d{4}\.[1-2])$/'
             ],
-            'status' => 'required|in:active,completed,cancelled',
+            'status' => ['required', 'in:active,completed,cancelled'],
             'color' => 'required|string|size:7|regex:/^#[a-zA-Z0-9]{6}$/',
             'description' => 'nullable|string|max:1000',
         ], [
@@ -132,6 +132,11 @@ class SubjectController extends Controller
             'workload.max' => 'A carga horária não pode ser maior que 1000 horas.',
             'workload.min' => 'A carga horária não pode ser negativa.'
         ]);
+
+        // Converte 'cancelled' para 'inactive' se necessário
+        if ($validated['status'] === 'cancelled') {
+            $validated['status'] = 'inactive';
+        }
 
         $subject->update($validated);
 

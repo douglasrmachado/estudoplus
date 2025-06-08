@@ -87,9 +87,9 @@ class Subject extends Model
     public static function statuses(): array
     {
         return [
-            'active' => 'Ativa',
+            'active' => 'Em Andamento',
             'completed' => 'Concluída',
-            'cancelled' => 'Cancelada',
+            'cancelled' => 'Inativa',
         ];
     }
 
@@ -101,8 +101,8 @@ class Subject extends Model
     public function getStatusColorAttribute(): string
     {
         return match($this->status) {
-            'active' => 'green',
-            'completed' => 'blue',
+            'active' => 'blue',
+            'completed' => 'green',
             'cancelled' => 'red',
             default => 'gray'
         };

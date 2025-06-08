@@ -50,7 +50,7 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Matérias Ativas</p>
+                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Matérias em Andamento</p>
                                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">{{ $activeSubjects }}</p>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                                         </div>
                                         <div class="text-right">
                                             <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                                                {{ $session->start_time->format('d/m/Y H:i') }}
+                                                {{ $session->formatted_start_time }}
                                             </p>
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                                                 {{ $session->status_label }}
@@ -144,16 +144,35 @@
             <!-- Progresso das Matérias -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8">
                 <div class="p-6">
-                    <div class="flex justify-between items-center mb-4">
+                    <div class="flex justify-between items-center mb-6">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Progresso das Matérias</h3>
-                        <div class="flex items-center space-x-2 text-sm">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Concluída</span>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Em Andamento</span>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200">Inativa</span>
+                        <div class="flex items-center space-x-2">
+                            <a href="{{ route('dashboard', ['status' => 'all']) }}" 
+                               class="inline-flex items-center px-3 py-1 text-sm rounded-full transition-colors {{ $statusFilter === 'all' ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                                Todas
+                            </a>
+                            <a href="{{ route('dashboard', ['status' => 'active']) }}" 
+                               class="inline-flex items-center px-3 py-1 text-sm rounded-full transition-colors {{ $statusFilter === 'active' ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800' }}">
+                                Em Andamento
+                            </a>
+                            <a href="{{ route('dashboard', ['status' => 'completed']) }}" 
+                               class="inline-flex items-center px-3 py-1 text-sm rounded-full transition-colors {{ $statusFilter === 'completed' ? 'bg-green-500 text-white' : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-800' }}">
+                                Concluída
+                            </a>
+                            <a href="{{ route('dashboard', ['status' => 'cancelled']) }}" 
+                               class="inline-flex items-center px-3 py-1 text-sm rounded-full transition-colors {{ $statusFilter === 'cancelled' ? 'bg-red-500 text-white' : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-800' }}">
+                                Inativa
+                            </a>
                         </div>
                     </div>
                     @if($subjects->isEmpty())
-                        <p class="text-gray-600 dark:text-gray-400">Nenhuma matéria cadastrada.</p>
+                        <p class="text-gray-600 dark:text-gray-400">
+                            @if($statusFilter === 'all')
+                                Nenhuma matéria cadastrada.
+                            @else
+                                Nenhuma matéria {{ $statusFilter === 'active' ? 'em andamento' : ($statusFilter === 'completed' ? 'concluída' : 'inativa') }}.
+                            @endif
+                        </p>
                     @else
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             @foreach($subjects as $subject)
@@ -166,9 +185,9 @@
                                             </p>
                                         </div>
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ 
-                                            $subject->status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 
-                                            ($subject->status === 'active' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 
-                                            'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200') 
+                                            $subject->status === 'completed' ? 'bg-green-500 text-white' : 
+                                            ($subject->status === 'active' ? 'bg-blue-500 text-white' : 
+                                            'bg-red-500 text-white') 
                                         }}">
                                             {{ $subject->status === 'completed' ? 'Concluída' : ($subject->status === 'active' ? 'Em Andamento' : 'Inativa') }}
                                         </span>

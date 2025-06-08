@@ -29,13 +29,46 @@
                         </div>
 
                         <div class="mt-4">
-                            <x-input-label for="start_time" :value="__('Data e Hora de Início')" />
+                            <x-input-label for="start_time" :value="__('Data de Início')" />
                             <x-text-input id="start_time" 
-                                         name="start_time" 
-                                         type="datetime-local" 
-                                         class="mt-1 block w-full"
-                                         :value="old('start_time')"
-                                         required />
+                                            name="start_time" 
+                                            type="date" 
+                                            class="mt-1 block w-full"
+                                            :value="old('start_time')"
+                                            :min="now()->format('Y-m-d')"
+                                            required />
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', function() {
+                                                    const input = document.getElementById('start_time');
+                                                    
+                                                    input.addEventListener('input', function(e) {
+                                                        const value = e.target.value;
+                                                        if (value) {
+                                                            const parts = value.split('-');
+                                                            if (parts.length === 3) {
+                                                                const year = parseInt(parts[0]);
+                                                                const month = parseInt(parts[1]);
+                                                                const day = parseInt(parts[2]);
+                                                                
+                                                                let message = '';
+                                                                
+                                                                if (year < 2025) {
+                                                                    message = 'O ano deve ser 2025 ou posterior.';
+                                                                } else if (month < 1 || month > 12) {
+                                                                    message = 'O mês deve estar entre 01 e 12.';
+                                                                } else {
+                                                                    const daysInMonth = new Date(year, month, 0).getDate();
+                                                                    if (day < 1 || day > daysInMonth) {
+                                                                        message = `O dia deve estar entre 01 e ${daysInMonth} para o mês selecionado.`;
+                                                                    }
+                                                                }
+                                                                
+                                                                this.setCustomValidity(message);
+                                                            }
+                                                        }
+                                                    });
+                                                });
+                                            </script>
                             <x-input-error :messages="$errors->get('start_time')" class="mt-2" />
                         </div>
 
@@ -88,4 +121,36 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('start_time');
+            
+            input.addEventListener('input', function(e) {
+                let value = e.target.value;
+                if (value) {
+                    let date = new Date(value);
+                    let now = new Date();
+                    now.setHours(0, 0, 0, 0);
+                    
+                    if (date < now) {
+                        this.setCustomValidity('Por favor, selecione uma data igual ou posterior a hoje.');
+                    } else {
+                        this.setCustomValidity('');
+                    }
+                }
+            });
+
+            // Altera o formato de exibição para dd/mm/yyyy
+            input.addEventListener('change', function(e) {
+                let value = e.target.value;
+                if (value) {
+                    let parts = value.split('-');
+                    if (parts.length === 3) {
+                        let formattedDate = parts[2] + '/' + parts[1] + '/' + parts[0];
+                        input.setAttribute('data-display', formattedDate);
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout> 

@@ -39,10 +39,11 @@
                                 @endif
                                 <p>
                                     <span class="font-medium">Status:</span>
-                                    <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                        {{ $subject->status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : '' }}
-                                        {{ $subject->status === 'completed' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : '' }}
-                                        {{ $subject->status === 'cancelled' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : '' }}">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ 
+                                        $subject->status === 'completed' ? 'bg-green-500 text-white' : 
+                                        ($subject->status === 'active' ? 'bg-blue-500 text-white' : 
+                                        'bg-red-500 text-white') 
+                                    }}">
                                         {{ $subject->status_label }}
                                     </span>
                                 </p>
@@ -236,7 +237,7 @@
                                     @foreach($studySessions as $session)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                                {{ $session->start_time->format('d/m/Y H:i') }}
+                                                {{ $session->formatted_start_time }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                                 {{ $session->duration }}h

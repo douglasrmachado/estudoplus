@@ -44,17 +44,34 @@ class StudySessionController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'start_time.required' => 'A data de início é obrigatória.',
+            'start_time.date' => 'A data de início deve estar em um formato válido.',
+            'start_time.after_or_equal' => 'A data de início deve ser igual ou posterior a hoje.',
+            'start_time.date_format' => 'A data deve estar no formato dd/mm/aaaa.',
+            'duration.required' => 'A duração é obrigatória.',
+            'duration.integer' => 'A duração deve ser um número inteiro.',
+            'duration.min' => 'A duração deve ser de pelo menos 1 minuto.',
+            'subject_id.required' => 'A matéria é obrigatória.',
+            'subject_id.exists' => 'A matéria selecionada é inválida.',
+            'status.required' => 'O status é obrigatório.',
+            'status.in' => 'O status selecionado é inválido.'
+        ];
+
         $validated = $request->validate([
-            'subject_id' => 'required|exists:subjects,id',
-            'start_time' => 'required|date',
-            'duration' => 'required|integer|min:1',
-            'description' => 'nullable|string',
-            'status' => 'required|in:planned,in_progress,completed,cancelled',
-        ]);
+            'start_time' => ['required', 'date', 'after_or_equal:today'],
+            'duration' => ['required', 'integer', 'min:1'],
+            'subject_id' => ['required', 'exists:subjects,id'],
+            'description' => ['nullable', 'string'],
+            'status' => ['required', 'in:planned,in_progress,completed,cancelled']
+        ], $messages);
 
-        StudySession::create($validated);
+        // Converte a data para o formato correto
+        $validated['start_time'] = date('Y-m-d 00:00:00', strtotime($validated['start_time']));
 
-        return redirect()->route('study-sessions.index')
+        $studySession = StudySession::create($validated);
+
+        return redirect()->route('study-sessions.show', $studySession)
             ->with('success', 'Sessão de estudo criada com sucesso!');
     }
 
@@ -84,13 +101,30 @@ class StudySessionController extends Controller
     {
         $this->authorize('update', $studySession);
 
+        $messages = [
+            'start_time.required' => 'A data de início é obrigatória.',
+            'start_time.date' => 'A data de início deve estar em um formato válido.',
+            'start_time.after_or_equal' => 'A data de início deve ser igual ou posterior a hoje.',
+            'start_time.date_format' => 'A data deve estar no formato dd/mm/aaaa.',
+            'duration.required' => 'A duração é obrigatória.',
+            'duration.integer' => 'A duração deve ser um número inteiro.',
+            'duration.min' => 'A duração deve ser de pelo menos 1 minuto.',
+            'subject_id.required' => 'A matéria é obrigatória.',
+            'subject_id.exists' => 'A matéria selecionada é inválida.',
+            'status.required' => 'O status é obrigatório.',
+            'status.in' => 'O status selecionado é inválido.'
+        ];
+
         $validated = $request->validate([
             'subject_id' => 'required|exists:subjects,id',
-            'start_time' => 'required|date',
+            'start_time' => ['required', 'date', 'after_or_equal:today'],
             'duration' => 'required|integer|min:1',
             'description' => 'nullable|string',
             'status' => 'required|in:planned,in_progress,completed,cancelled',
-        ]);
+        ], $messages);
+
+        // Converte a data para o formato correto
+        $validated['start_time'] = date('Y-m-d 00:00:00', strtotime($validated['start_time']));
 
         $studySession->update($validated);
 

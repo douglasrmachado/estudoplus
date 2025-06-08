@@ -56,4 +56,9 @@ class StudySession extends Model
             default => 'gray'
         };
     }
+
+    public function getFormattedStartTimeAttribute(): string
+    {
+        return $this->start_time->format('d/m/Y');
+    }
 } 

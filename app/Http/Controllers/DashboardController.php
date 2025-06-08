@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        $statusFilter = $request->get('status', 'all');
 
         // Estatísticas Rápidas
         $completedTasks = Task::whereHas('subject', function($q) use ($user) {
@@ -50,12 +51,17 @@ class DashboardController extends Controller
           ->get();
 
         // Progresso das Matérias
-        $subjects = Subject::where('user_id', $user->id)
-            ->where('status', 'active')
-            ->withCount(['tasks as completed_tasks_count' => function($q) {
+        $subjectsQuery = Subject::where('user_id', $user->id);
+        
+        if ($statusFilter !== 'all') {
+            $subjectsQuery->where('status', $statusFilter);
+        }
+
+        $subjects = $subjectsQuery->withCount(['tasks as completed_tasks_count' => function($q) {
                 $q->where('status', 'completed');
             }])
             ->withCount(['tasks as total_tasks_count'])
+            ->orderBy('updated_at', 'desc')
             ->get()
             ->map(function($subject) {
                 $subject->total_study_hours = $subject->studySessions()
@@ -80,7 +86,8 @@ class DashboardController extends Controller
             'upcomingTasks',
             'upcomingStudySessions',
             'subjects',
-            'recentSelfAssessments'
+            'recentSelfAssessments',
+            'statusFilter'
         ));
     }
 
