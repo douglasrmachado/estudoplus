@@ -16,7 +16,7 @@ return [
     'accepted_if' => 'O campo :attribute deve ser aceito quando :other for :value.',
     'active_url' => 'O campo :attribute deve conter uma URL válida.',
     'after' => 'O campo :attribute deve ser uma data posterior a :date.',
-    'after_or_equal' => 'O campo :attribute deve ser uma data posterior ou igual a :date.',
+    'after_or_equal' => 'O campo :attribute deve ser uma data igual ou posterior a :date.',
     'alpha' => 'O campo :attribute deve conter apenas letras.',
     'alpha_dash' => 'O campo :attribute deve conter apenas letras, números, traços e sublinhados.',
     'alpha_num' => 'O campo :attribute deve conter apenas letras e números.',
@@ -33,7 +33,7 @@ return [
     'boolean' => 'O campo :attribute deve ser verdadeiro ou falso.',
     'confirmed' => 'A confirmação do campo :attribute não coincide.',
     'current_password' => 'A senha está incorreta.',
-    'date' => 'O campo :attribute deve conter uma data válida.',
+    'date' => 'O campo :attribute deve ser uma data válida.',
     'date_equals' => 'O campo :attribute deve conter uma data igual a :date.',
     'date_format' => 'O campo :attribute deve corresponder ao formato :format.',
     'decimal' => 'O campo :attribute deve ter :decimal casas decimais.',
@@ -141,7 +141,7 @@ return [
         'string' => 'O campo :attribute deve ter :size caracteres.',
     ],
     'starts_with' => 'O campo :attribute deve começar com um dos seguintes valores: :values.',
-    'string' => 'O campo :attribute deve ser uma string.',
+    'string' => 'O campo :attribute deve ser um texto.',
     'timezone' => 'O campo :attribute deve ser um fuso horário válido.',
     'unique' => 'O :attribute já foi utilizado.',
     'uploaded' => 'O upload do campo :attribute falhou.',
@@ -178,5 +178,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'start_time' => 'data de início',
+        'duration' => 'duração',
+        'subject_id' => 'matéria',
+        'description' => 'descrição',
+        'status' => 'status',
+    ],
 ]; 

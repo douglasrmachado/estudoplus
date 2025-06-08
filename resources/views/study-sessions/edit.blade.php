@@ -49,6 +49,9 @@
                                          type="number" 
                                          class="mt-1 block w-full"
                                          :value="old('duration', $studySession->duration)"
+                                         min="1"
+                                         oninvalid="this.setCustomValidity('Por favor, preencha este campo com um número maior que zero.')"
+                                         oninput="this.setCustomValidity('')"
                                          required />
                             <x-input-error :messages="$errors->get('duration')" class="mt-2" />
                         </div>
@@ -58,7 +61,9 @@
                             <textarea id="description" 
                                      name="description" 
                                      rows="3" 
-                                     class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('description', $studySession->description) }}</textarea>
+                                     class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                     oninvalid="this.setCustomValidity('Por favor, preencha este campo.')"
+                                     oninput="this.setCustomValidity('')">{{ old('description', $studySession->description) }}</textarea>
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 
@@ -67,6 +72,8 @@
                             <select id="status" 
                                     name="status" 
                                     class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                    oninvalid="this.setCustomValidity('Por favor, selecione uma opção.')"
+                                    oninput="this.setCustomValidity('')"
                                     required>
                                 @foreach(App\Models\StudySession::statuses() as $value => $label)
                                     <option value="{{ $value }}" 
