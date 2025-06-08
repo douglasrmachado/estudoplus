@@ -57,7 +57,7 @@ class SelfAssessment extends Model
         return match($value) {
             1 => 'red',
             2 => 'orange',
-            3 => 'yellow',
+            3 => 'indigo',
             4 => 'blue',
             5 => 'green',
             default => 'gray'

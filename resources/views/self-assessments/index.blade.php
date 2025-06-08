@@ -37,24 +37,24 @@
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                     @foreach($assessments as $assessment)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500 dark:text-gray-400">
                                                 {{ $assessment->assessment_date->format('d/m/Y') }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500 dark:text-gray-400">
                                                 {{ $assessment->subject->name }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $assessment->understanding_level_color }}-100 dark:bg-{{ $assessment->understanding_level_color }}-900 text-{{ $assessment->understanding_level_color }}-800 dark:text-{{ $assessment->understanding_level_color }}-200">
+                                                <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full bg-{{ $assessment->understanding_level_color }}-100 dark:bg-{{ $assessment->understanding_level_color }}-900 text-{{ $assessment->understanding_level_color }}-800 dark:text-{{ $assessment->understanding_level_color }}-200">
                                                     {{ $assessment->understanding_level_label }}
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $assessment->study_effectiveness_color }}-100 dark:bg-{{ $assessment->study_effectiveness_color }}-900 text-{{ $assessment->study_effectiveness_color }}-800 dark:text-{{ $assessment->study_effectiveness_color }}-200">
+                                                <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full bg-{{ $assessment->study_effectiveness_color }}-100 dark:bg-{{ $assessment->study_effectiveness_color }}-900 text-{{ $assessment->study_effectiveness_color }}-800 dark:text-{{ $assessment->study_effectiveness_color }}-200">
                                                     {{ $assessment->study_effectiveness_label }}
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $assessment->confidence_level_color }}-100 dark:bg-{{ $assessment->confidence_level_color }}-900 text-{{ $assessment->confidence_level_color }}-800 dark:text-{{ $assessment->confidence_level_color }}-200">
+                                                <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full bg-{{ $assessment->confidence_level_color }}-100 dark:bg-{{ $assessment->confidence_level_color }}-900 text-{{ $assessment->confidence_level_color }}-800 dark:text-{{ $assessment->confidence_level_color }}-200">
                                                     {{ $assessment->confidence_level_label }}
                                                 </span>
                                             </td>

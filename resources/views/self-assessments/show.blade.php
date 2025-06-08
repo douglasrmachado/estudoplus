@@ -41,19 +41,19 @@
                             <div class="space-y-4">
                                 <div>
                                     <span class="font-medium">Nível de Compreensão:</span>
-                                    <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $selfAssessment->understanding_level_color }}-100 dark:bg-{{ $selfAssessment->understanding_level_color }}-900 text-{{ $selfAssessment->understanding_level_color }}-800 dark:text-{{ $selfAssessment->understanding_level_color }}-200">
+                                    <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $selfAssessment->understanding_level_color }}-100 dark:bg-{{ $selfAssessment->understanding_level_color }}-900 text-{{ $selfAssessment->understanding_level_color }}-800 dark:text-white">
                                         {{ $selfAssessment->understanding_level_label }}
                                     </span>
                                 </div>
                                 <div>
                                     <span class="font-medium">Efetividade dos Estudos:</span>
-                                    <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $selfAssessment->study_effectiveness_color }}-100 dark:bg-{{ $selfAssessment->study_effectiveness_color }}-900 text-{{ $selfAssessment->study_effectiveness_color }}-800 dark:text-{{ $selfAssessment->study_effectiveness_color }}-200">
+                                    <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $selfAssessment->study_effectiveness_color }}-100 dark:bg-{{ $selfAssessment->study_effectiveness_color }}-900 text-{{ $selfAssessment->study_effectiveness_color }}-800 dark:text-white">
                                         {{ $selfAssessment->study_effectiveness_label }}
                                     </span>
                                 </div>
                                 <div>
                                     <span class="font-medium">Nível de Confiança:</span>
-                                    <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $selfAssessment->confidence_level_color }}-100 dark:bg-{{ $selfAssessment->confidence_level_color }}-900 text-{{ $selfAssessment->confidence_level_color }}-800 dark:text-{{ $selfAssessment->confidence_level_color }}-200">
+                                    <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $selfAssessment->confidence_level_color }}-100 dark:bg-{{ $selfAssessment->confidence_level_color }}-900 text-{{ $selfAssessment->confidence_level_color }}-800 dark:text-white">
                                         {{ $selfAssessment->confidence_level_label }}
                                     </span>
                                 </div>

@@ -198,10 +198,10 @@
                                             <p class="text-sm text-gray-600 dark:text-gray-400">{{ $assessment->assessment_date->format('d/m/Y') }}</p>
                                         </div>
                                         <div class="flex space-x-2">
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-{{ $assessment->getLevelColorAttribute('understanding_level') }}-100 text-{{ $assessment->getLevelColorAttribute('understanding_level') }}-800 dark:bg-{{ $assessment->getLevelColorAttribute('understanding_level') }}-900 dark:text-{{ $assessment->getLevelColorAttribute('understanding_level') }}-200">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-{{ $assessment->getLevelColorAttribute('understanding_level') }}-100 text-{{ $assessment->getLevelColorAttribute('understanding_level') }}-800 dark:bg-{{ $assessment->getLevelColorAttribute('understanding_level') }}-900 dark:text-white">
                                                 Compreensão: {{ $assessment->understanding_level_label }}
                                             </span>
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-{{ $assessment->getLevelColorAttribute('confidence_level') }}-100 text-{{ $assessment->getLevelColorAttribute('confidence_level') }}-800 dark:bg-{{ $assessment->getLevelColorAttribute('confidence_level') }}-900 dark:text-{{ $assessment->getLevelColorAttribute('confidence_level') }}-200">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-{{ $assessment->getLevelColorAttribute('confidence_level') }}-100 text-{{ $assessment->getLevelColorAttribute('confidence_level') }}-800 dark:bg-{{ $assessment->getLevelColorAttribute('confidence_level') }}-900 dark:text-white">
                                                 Confiança: {{ $assessment->confidence_level_label }}
                                             </span>
                                         </div>
